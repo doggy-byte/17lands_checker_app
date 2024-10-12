@@ -10,7 +10,7 @@ colors = ['WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG']
 dfs = {}
 
 for c in colors:
-    df_tmp = pd.read_csv('dashboard_data/DSK_PremierDraft_{}_20241011.csv'.format(c))
+    df_tmp = open_or_download_db('DSK_PremierDraft_{}_20241011.csv'.format(c))
     df_tmp = df_tmp[['Name', 'GIH WR', 'IWD']]
     df_tmp.columns = ['Name', 'GIHWR_{}'.format(c), 'IWD_{}'.format(c)]
     dfs[c] = df_tmp
