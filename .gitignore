@@ -1,0 +1,6 @@
+/.streamlit/
+/card_images/
+/dashboard_data/
+/__pycache__/
+/pdfs/
+/*.ipynb
