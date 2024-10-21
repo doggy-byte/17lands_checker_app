@@ -53,7 +53,7 @@ def callback_next():
         df_filtered = df.query(st.session_state.filter)
         df_sample = df_filtered[df_filtered[st.session_state.metrics].notnull()].sample(2).reset_index()
     else:
-        df_sample = df[df[st.session_state.metrics].notnull()].sample(2).reset_index()
+        df_sample = df[(df[st.session_state.metrics].notnull())&(df['GIH WR'].notnull())].sample(2).reset_index()
 
     st.session_state.nameA = df_sample['Name'][0]
     st.session_state.nameB = df_sample['Name'][1]
@@ -77,7 +77,11 @@ if not 'nameA' in st.session_state.keys():
 
 st.title("Which is stronger?")
 st.session_state.filename_db = st.selectbox('select file', filenames_db)
-st.session_state.metrics = st.selectbox('select metrics', list_metrics, index=12)
+
+fil1, fil2, fil3 = st.columns(3)
+
+st.session_state.metrics = st.selectbox('Metrics', list_metrics, index=12)
+
 #st.session_state.filter = st.text_input(label='Filter', value='')
 col1, col2 = st.columns(2)
 with col1:
