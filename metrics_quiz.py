@@ -11,24 +11,34 @@ from common_functions import open_or_download_image, open_or_download_db
 #g = p.glob('*.csv')
 #filenames_db = list(g)
 
-filenames_db = [
-    "DSK_PremierDraft_All_20241011.csv",
-    "DSK_PremierDraft_WU_20241011.csv",
-    "DSK_PremierDraft_WB_20241011.csv",
-    "DSK_PremierDraft_WR_20241011.csv",
-    "DSK_PremierDraft_WG_20241011.csv",
-    "DSK_PremierDraft_UB_20241011.csv",
-    "DSK_PremierDraft_UR_20241011.csv",
-    "DSK_PremierDraft_UG_20241011.csv",
-    "DSK_PremierDraft_BR_20241011.csv",
-    "DSK_PremierDraft_BG_20241011.csv",
-    "DSK_PremierDraft_RG_20241011.csv"
-]
+filenames_db = st.secrets['metrics_quiz']['filenames_db']
 
 st.session_state.filter = ''
 
 set_name = 'DSK'
 metrics = 'GIH WR'
+
+list_metrics = [
+    "# Seen",
+    "ALSA",
+    "# Picked",
+    "ATA",
+    "# GP",
+    "%% GP",
+    "GP WR",
+    "# OH",
+    "OH WR",
+    "# GD",
+    "GD WR",
+    "# GIH",
+    "GIH WR",
+    "# GNS",
+    "GNS WR",
+    "IWD"
+]
+
+if 'metrics' not in st.session_state:
+    st.session_state.metrics = 'GIH WR'
 
 if 'filter' not in st.session_state:
     st.session_state.filter = ''
@@ -41,32 +51,33 @@ def callback_next():
 
     if len(st.session_state.filter) > 0:
         df_filtered = df.query(st.session_state.filter)
-        df_sample = df_filtered[df_filtered['GIH WR'].notnull()].sample(2).reset_index()
+        df_sample = df_filtered[df_filtered[st.session_state.metrics].notnull()].sample(2).reset_index()
     else:
-        df_sample = df[df['GIH WR'].notnull()].sample(2).reset_index()
+        df_sample = df[df[st.session_state.metrics].notnull()].sample(2).reset_index()
 
     st.session_state.nameA = df_sample['Name'][0]
     st.session_state.nameB = df_sample['Name'][1]
     #st.session_state.qnameA = st.session_state.nameA.replace('//', '').replace(' ', '+')
     #st.session_state.qnameB = st.session_state.nameB.replace('//', '').replace(' ', '+')
-    st.session_state.metricsA = df_sample[metrics][0]
-    st.session_state.metricsB = df_sample[metrics][1]
+    st.session_state.metricsA = df_sample[st.session_state.metrics][0]
+    st.session_state.metricsB = df_sample[st.session_state.metrics][1]
     #st.session_state.imA = Image.open('card_images/{}/{}.png'.format(set_name, st.session_state.qnameA))
     #st.session_state.imB = Image.open("card_images/{}/{}.png".format(set_name, st.session_state.qnameB))
     st.session_state.imA = open_or_download_image(st.session_state.nameA)
     st.session_state.imB = open_or_download_image(st.session_state.nameB)
-    st.session_state.answerA = 'GIHWR=____'
-    st.session_state.answerB = 'GIHWR=____'
+    st.session_state.answerA = '{}=____'.format(st.session_state.metrics)
+    st.session_state.answerB = '{}=____'.format(st.session_state.metrics)
 
 def callback_answer():
-    st.session_state.answerA = 'GIHWR={}'.format(st.session_state.metricsA)
-    st.session_state.answerB = 'GIHWR={}'.format(st.session_state.metricsB)
+    st.session_state.answerA = '{}={}'.format(st.session_state.metrics, st.session_state.metricsA)
+    st.session_state.answerB = '{}={}'.format(st.session_state.metrics, st.session_state.metricsB)
 
 if not 'nameA' in st.session_state.keys():
     callback_next()
 
 st.title("Which is stronger?")
 st.session_state.filename_db = st.selectbox('select file', filenames_db)
+st.session_state.metrics = st.selectbox('select metrics', list_metrics, index=12)
 #st.session_state.filter = st.text_input(label='Filter', value='')
 col1, col2 = st.columns(2)
 with col1:

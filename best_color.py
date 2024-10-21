@@ -10,7 +10,7 @@ colors = ['WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG']
 dfs = {}
 
 for c in colors:
-    df_tmp = open_or_download_db('DSK_PremierDraft_{}_20241011.csv'.format(c))
+    df_tmp = open_or_download_db(st.secrets['best_color']['filename_base'].format(c))
     df_tmp = df_tmp[['Name', 'GIH WR', 'IWD']]
     df_tmp.columns = ['Name', 'GIHWR_{}'.format(c), 'IWD_{}'.format(c)]
     dfs[c] = df_tmp
@@ -24,7 +24,7 @@ for c in colors:
 
 df_join.dropna(subset=['GIHWR_{}'.format(c) for c in colors], inplace=True, how='all')
 
-with open('color_winrate_20241011.json') as f:
+with open(st.secrets['best_color']['color_winrate']) as f:
     d_color_winrate = json.load(f)
 
 list_color_winrate = [d_color_winrate[x] for x in colors]
