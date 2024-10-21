@@ -42,3 +42,21 @@ def open_or_download_db(filename):
     df.to_csv(file_path, index=None)
         
     return df
+
+
+def open_or_download_json(filename):
+    os.makedirs('dashboard_data', exist_ok=True)
+
+    file_path = 'dashboard_data/' + filename
+    
+    if osp.exists(file_path):
+        with open(file_path, 'r') as f:
+            return json.load(f)
+        
+    conn = st.connection('gcs', type=FilesConnection)
+    j = conn.read("streamlit-17lands-checker-app/{}".format(filename), input_format="json", ttl=600)
+    
+    with open(file_path, 'w') as f:
+        json.dump(j, f)
+        
+    return j

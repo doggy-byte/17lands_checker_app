@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
 import json
-from common_functions import open_or_download_image, open_or_download_db
+from common_functions import open_or_download_image, open_or_download_db, open_or_download_json
 
 
 colors = ['WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG']
@@ -24,8 +24,9 @@ for c in colors:
 
 df_join.dropna(subset=['GIHWR_{}'.format(c) for c in colors], inplace=True, how='all')
 
-with open(st.secrets['best_color']['color_winrate']) as f:
-    d_color_winrate = json.load(f)
+#with open(st.secrets['best_color']['color_winrate']) as f:
+#    d_color_winrate = json.load(f)
+d_color_winrate = open_or_download_json(st.secrets['best_color']['color_winrate'])
 
 list_color_winrate = [d_color_winrate[x] for x in colors]
 
