@@ -10,7 +10,7 @@ colors = ['WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG']
 dfs = {}
 
 if 'set_bcol' not in st.session_state:
-    st.session_state.set_bcol = 'DSK'
+    st.session_state.set_bcol = 'FDN'
 
 if 'format_bcol' not in st.session_state:
     st.session_state.format_bcol = 'PremierDraft'

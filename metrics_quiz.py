@@ -38,7 +38,7 @@ list_metrics = [
 ]
 
 if 'set_mquiz' not in st.session_state:
-    st.session_state.set_mquiz = 'DSK'
+    st.session_state.set_mquiz = 'FDN'
 
 if 'format_mquiz' not in st.session_state:
     st.session_state.format_mquiz = 'PremierDraft'
@@ -93,7 +93,7 @@ with fil1:
 with fil2:
     st.session_state.format_mquiz = st.selectbox('Format', ['PremierDraft'])
 with fil3:
-    st.session_state.color_mquiz = st.selectbox('Color', ['All', 'WU'])
+    st.session_state.color_mquiz = st.selectbox('Color', ['All', 'WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG'])
 with fil4:
     st.session_state.metrics = st.selectbox('Metrics', list_metrics, index=12)
 
