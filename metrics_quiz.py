@@ -89,7 +89,7 @@ st.title("Which is stronger?")
 
 fil1, fil2, fil3, fil4 = st.columns(4)
 with fil1:
-    st.session_state.set_mquiz = st.selectbox('Set', ['DSK', 'FDN'])
+    st.session_state.set_mquiz = st.selectbox('Set', ['FDN', 'DSK'])
 with fil2:
     st.session_state.format_mquiz = st.selectbox('Format', ['PremierDraft'])
 with fil3:

@@ -79,7 +79,7 @@ st.title('Best deck color')
 
 fil1, fil2 = st.columns(2)
 with fil1:
-    st.session_state.set_bcol = st.selectbox('Set', ['DSK', 'FDN'])
+    st.session_state.set_bcol = st.selectbox('Set', ['FDN', 'DSK'])
 with fil2:
     st.session_state.format_bcol = st.selectbox('Format', ['PremierDraft'])
 
