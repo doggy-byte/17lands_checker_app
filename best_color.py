@@ -9,8 +9,15 @@ from common_functions import open_or_download_image, open_or_download_db, open_o
 colors = ['WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG']
 dfs = {}
 
+if 'set_bcol' not in st.session_state:
+    st.session_state.set_bcol = 'DSK'
+
+if 'format_bcol' not in st.session_state:
+    st.session_state.format_bcol = 'PremierDraft'
+
 for c in colors:
-    df_tmp = open_or_download_db(st.secrets['best_color']['filename_base'].format(c))
+    #df_tmp = open_or_download_db(st.secrets['best_color']['filename_base'].format(c))
+    df_tmp = open_or_download_db(st.secrets[st.session_state.set_bcol][st.session_state.format_bcol][c])
     df_tmp = df_tmp[['Name', 'GIH WR', 'IWD']]
     df_tmp.columns = ['Name', 'GIHWR_{}'.format(c), 'IWD_{}'.format(c)]
     dfs[c] = df_tmp
@@ -26,7 +33,7 @@ df_join.dropna(subset=['GIHWR_{}'.format(c) for c in colors], inplace=True, how=
 
 #with open(st.secrets['best_color']['color_winrate']) as f:
 #    d_color_winrate = json.load(f)
-d_color_winrate = open_or_download_json(st.secrets['best_color']['color_winrate'])
+d_color_winrate = open_or_download_json(st.secrets[st.session_state.set_bcol][st.session_state.format_bcol]['color_winrate'])
 
 list_color_winrate = [d_color_winrate[x] for x in colors]
 
@@ -67,9 +74,16 @@ if not 'cardname' in st.session_state.keys():
     callback_next()
 
 
-st.title('Best deck color')
-col1, col2 = st.columns([1, 2])
 
+st.title('Best deck color')
+
+fil1, fil2 = st.columns(2)
+with fil1:
+    st.session_state.set_bcol = st.selectbox('Set', ['DSK', 'FDN'])
+with fil2:
+    st.session_state.format_bcol = st.selectbox('Format', ['PremierDraft'])
+
+col1, col2 = st.columns([1, 2])
 with col1:
     st.button('Answer', on_click=callback_answer, use_container_width=True)
     st.image(st.session_state.im)
