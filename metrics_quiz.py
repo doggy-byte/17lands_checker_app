@@ -87,6 +87,8 @@ if not 'nameA' in st.session_state.keys():
 
 st.title("Which is stronger?")
 
+st.markdown("Metrics data was retrieved from [17Lands](https://www.17lands.com/) after 12 days of embargo period.")
+
 fil1, fil2, fil3, fil4 = st.columns(4)
 with fil1:
     st.session_state.set_mquiz = st.selectbox('Set', ['FDN', 'DSK'])
