@@ -95,7 +95,7 @@ with fil1:
 with fil2:
     st.session_state.format_mquiz = st.selectbox('Format', ['PremierDraft'])
 with fil3:
-    st.session_state.color_mquiz = st.selectbox('Color', ['All', 'WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG'])
+    st.session_state.color_mquiz = st.selectbox('Deck Color', ['All', 'WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG'])
 with fil4:
     st.session_state.metrics = st.selectbox('Metrics', list_metrics, index=12)
 
