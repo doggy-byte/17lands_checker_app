@@ -11,7 +11,6 @@ import pandas as pd
 def open_or_download_image(cardname: str):
     os.makedirs('card_images', exist_ok=True)
 
-    print(cardname)
     qname = cardname.replace('/', '_').replace(' ', '+')
     
     file_path = 'card_images/' + qname + '.png'
