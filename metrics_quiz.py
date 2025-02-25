@@ -15,9 +15,6 @@ from common_functions import open_or_download_image, open_or_download_db
 
 st.session_state.filter = ''
 
-set_name = 'DSK'
-metrics = ['GIH WR']
-
 list_metrics = [
     "# Seen",
     "ALSA",
@@ -38,7 +35,7 @@ list_metrics = [
 ]
 
 if 'set_mquiz' not in st.session_state:
-    st.session_state.set_mquiz = 'FDN'
+    st.session_state.set_mquiz = st.secrets['sets'][-1]
 
 if 'format_mquiz' not in st.session_state:
     st.session_state.format_mquiz = 'PremierDraft'
@@ -63,7 +60,7 @@ def callback_next():
         df_filtered = df.query(st.session_state.filter)
         df_sample = df_filtered[df_filtered[st.session_state.metrics].notnull().all()].sample(2).reset_index()
     else:
-        df_sample = df[df[metrics].notnull().all(axis=1)].sample(2).reset_index()
+        df_sample = df[df[st.session_state.metrics].notnull().all(axis=1)].sample(2).reset_index()
 
     st.session_state.nameA = df_sample['Name'][0]
     st.session_state.nameB = df_sample['Name'][1]
@@ -105,7 +102,7 @@ st.markdown("Metrics data was retrieved from [17Lands](https://www.17lands.com/)
 
 fil1, fil2, fil3, fil4 = st.columns(4)
 with fil1:
-    st.session_state.set_mquiz = st.selectbox('Set', ['FDN', 'DSK'])
+    st.session_state.set_mquiz = st.selectbox('Set', st.secrets['sets'])
 with fil2:
     st.session_state.format_mquiz = st.selectbox('Format', ['PremierDraft'])
 with fil3:
