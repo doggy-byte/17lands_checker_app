@@ -102,11 +102,11 @@ st.markdown("Metrics data was retrieved from [17Lands](https://www.17lands.com/)
 
 fil1, fil2, fil3, fil4 = st.columns(4)
 with fil1:
-    st.session_state.set_mquiz = st.selectbox('Set', st.secrets['sets'])
+    st.session_state.set_mquiz = st.selectbox('Set', st.secrets['sets'], index=len(st.secrets['sets'])-1)
 with fil2:
-    st.session_state.format_mquiz = st.selectbox('Format', ['PremierDraft'])
+    st.session_state.format_mquiz = st.selectbox('Format', ['PremierDraft'], index=0)
 with fil3:
-    st.session_state.color_mquiz = st.selectbox('Deck Color', ['All', 'WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG'])
+    st.session_state.color_mquiz = st.selectbox('Deck Color', ['All', 'WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG'], index=0)
 with fil4:
     #st.session_state.metrics = st.selectbox('Metrics', list_metrics, index=12)
     st.session_state.metrics = st.multiselect('Metrics', list_metrics, default='GIH WR')
