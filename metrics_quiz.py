@@ -35,7 +35,7 @@ list_metrics = [
 ]
 
 if 'set_mquiz' not in st.session_state:
-    st.session_state.set_mquiz = st.secrets['sets'][-1]
+    st.session_state.set_mquiz = st.secrets['sets'][0]
 
 if 'format_mquiz' not in st.session_state:
     st.session_state.format_mquiz = 'PremierDraft'
@@ -102,7 +102,7 @@ st.markdown("Metrics data was retrieved from [17Lands](https://www.17lands.com/)
 
 fil1, fil2, fil3, fil4 = st.columns(4)
 with fil1:
-    st.session_state.set_mquiz = st.selectbox('Set', st.secrets['sets'], index=len(st.secrets['sets'])-1)
+    st.session_state.set_mquiz = st.selectbox('Set', st.secrets['sets'], index=0)
 with fil2:
     st.session_state.format_mquiz = st.selectbox('Format', ['PremierDraft'], index=0)
 with fil3:
