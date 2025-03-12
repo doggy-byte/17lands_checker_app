@@ -4,7 +4,7 @@ from common_functions import open_or_download_db
 st.title("About")
 
 st.markdown("This is a collection of support apps for Magic: The Gathering Arena Premier Draft play.")
-st.markdown("Statistics data is retrieved from [17Lands](https://www.17lands.com/).")
+st.markdown("Statistics data was retrieved from [17Lands](https://www.17lands.com/).")
 
 st.markdown("### Update Log")
 

@@ -13,6 +13,19 @@ from common_functions import open_or_download_image, open_or_download_db
 
 #filenames_db = st.secrets['metrics_quiz']['filenames_db']
 
+st.markdown("""
+        <style>
+               .block-container {
+                    padding-top: 1rem;
+                    padding-bottom: 1rem;
+                    padding-left: 15%;
+                    padding-right: 15%;
+                    margin-left: 1rem;
+                    margin-right: 1rem;
+                }
+        </style>
+        """, unsafe_allow_html=True)
+
 st.session_state.filter = ''
 
 list_metrics = [
