@@ -2,3 +2,4 @@ streamlit
 gcsfs
 st-files-connection
 matplotlib
+streamlit-aggrid
