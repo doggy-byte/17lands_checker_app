@@ -62,6 +62,8 @@ if 'metrics' not in st.session_state:
 if 'filter' not in st.session_state:
     st.session_state.filter = ''
 
+
+
 def callback_next():
     df = open_or_download_db(st.secrets[st.session_state.set_mquiz][st.session_state.format_mquiz][st.session_state.color_mquiz])
     #if 'filename_db' not in st.session_state:

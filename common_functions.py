@@ -28,12 +28,12 @@ def open_or_download_image(cardname: str):
     return Image.open(file_path)
 
 
-def open_or_download_db(filename):
+def open_or_download_db(filename, force_download=False):
     os.makedirs('dashboard_data', exist_ok=True)
 
     file_path = 'dashboard_data/' + filename
     
-    if osp.exists(file_path):
+    if osp.exists(file_path) and not force_download:
         return pd.read_csv(file_path)
         
     conn = st.connection('gcs', type=FilesConnection)

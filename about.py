@@ -8,7 +8,7 @@ st.markdown("Statistics data was retrieved from [17Lands](https://www.17lands.co
 
 st.markdown("### Update Log")
 
-df_update = open_or_download_db('update_log.csv')
+df_update = open_or_download_db('update_log.csv', force_download=True)
 df_update = df_update.sort_values(by='Date', ascending=False)
 
 st.dataframe(
