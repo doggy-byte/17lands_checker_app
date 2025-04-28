@@ -18,8 +18,8 @@ st.markdown("""
                .block-container {
                     padding-top: 1rem;
                     padding-bottom: 1rem;
-                    padding-left: 15%;
-                    padding-right: 15%;
+                    padding-left: 20%;
+                    padding-right: 20%;
                     margin-left: 1rem;
                     margin-right: 1rem;
                 }
@@ -62,10 +62,17 @@ if 'metrics' not in st.session_state:
 if 'filter' not in st.session_state:
     st.session_state.filter = ''
 
+if 'nodata_flg' not in st.session_state:
+    st.session_state.nodata_flg = False
 
 
 def callback_next():
     df = open_or_download_db(st.secrets[st.session_state.set_mquiz][st.session_state.format_mquiz][st.session_state.color_mquiz])
+    if df is None or len(df[df[st.session_state.metrics].notnull().all(axis=1)]) < 2:
+        st.session_state.nodata_flg = True
+        return
+    else:
+        st.session_state.nodata_flg = False
     #if 'filename_db' not in st.session_state:
     #    df = open_or_download_db(filenames_db[0])
     #else:
@@ -121,7 +128,8 @@ with fil1:
 with fil2:
     st.session_state.format_mquiz = st.selectbox('Format', ['PremierDraft'], index=0)
 with fil3:
-    st.session_state.color_mquiz = st.selectbox('Deck Color', ['All', 'WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG'], index=0)
+    st.session_state.color_mquiz = st.selectbox('Deck Color', 
+    ['All', 'WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG', 'WUB', 'WUR', 'WUG', 'WBR', 'WBG', 'WRG', 'UBR', 'UBG', 'BRG', 'URG'], index=0)
 with fil4:
     #st.session_state.metrics = st.selectbox('Metrics', list_metrics, index=12)
     st.session_state.metrics = st.multiselect('Metrics', list_metrics, default='GIH WR')
@@ -129,15 +137,19 @@ with fil4:
 #st.session_state.filename_db = st.selectbox('select file', filenames_db)
 
 #st.session_state.filter = st.text_input(label='Filter', value='')
-col1, col2 = st.columns(2)
-with col1:
-    st.button('Answer', on_click=callback_answer, use_container_width=True)
-    st.markdown('' + st.session_state.answerA)
-    st.image(st.session_state.imA)
+if not st.session_state.nodata_flg:
+    col1, col2 = st.columns(2)
+    with col1:
+        st.button('Answer', on_click=callback_answer, use_container_width=True)
+        st.markdown('' + st.session_state.answerA)
+        st.image(st.session_state.imA)
 
-with col2:
+    with col2:
+        st.button('Next', on_click=callback_next, use_container_width=True)
+        st.markdown('' + st.session_state.answerB)
+        st.image(st.session_state.imB)
+else:
     st.button('Next', on_click=callback_next, use_container_width=True)
-    st.markdown('' + st.session_state.answerB)
-    st.image(st.session_state.imB)
+    st.markdown('No data available.')
 
 

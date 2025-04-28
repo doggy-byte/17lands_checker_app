@@ -37,11 +37,16 @@ def open_or_download_db(filename, force_download=False):
         return pd.read_csv(file_path)
         
     conn = st.connection('gcs', type=FilesConnection)
-    df = conn.read("streamlit-17lands-checker-app/{}".format(filename), input_format="csv", ttl=600)
-    
-    df.to_csv(file_path, index=None)
-        
-    return df
+    #df = conn.read("streamlit-17lands-checker-app/{}".format(filename), input_format="csv", ttl=600)
+    #df.to_csv(file_path, index=None)
+    #return df
+    try:
+        df = conn.read("streamlit-17lands-checker-app/{}".format(filename), input_format="csv", ttl=600)
+        df.to_csv(file_path, index=None)
+        return df
+    except Exception as e:
+        print("Failed open_or_download_db: {}".format(filename))
+        return None
 
 
 def open_or_download_json(filename):
