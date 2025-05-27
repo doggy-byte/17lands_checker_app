@@ -51,6 +51,7 @@ d_rename = {
     'isInSor':'#InstantSorcery',
     'isEnchantment':'#Enchantment',
     'isLand':'#Land',
+    'isNonbasicLand':'#NonbasicLand',
     'cntWhite':'#White',
     'cntBlue':'#Blue',
     'cntBlack':'#Black',
@@ -83,6 +84,7 @@ initial_columns = [
     '#InstantSorcery',
     '#Enchantment',
     '#Land',
+    '#NonbasicLand',
     '#Common',
     '#Uncommon',
     '#RareMythic',
@@ -174,7 +176,7 @@ with st.expander('Filters'):
                     on_change=callback_change_view, key='color_cardstats')
 
     st.text_input('Name', on_change=callback_change_view, key='cardname_cardstats')
-    st.multiselect('Metrics', st.session_state.list_columns_cardstats, default=initial_columns, 
+    st.multiselect('Metrics', st.session_state.list_columns_cardstats, default=[x for x in initial_columns if x in st.session_state.df_view_cardstats], 
                 on_change=callback_change_view, key='metrics_cardstats')
 
 with st.expander('Metrics Definitions'):

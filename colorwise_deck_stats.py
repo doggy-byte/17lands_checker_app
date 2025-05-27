@@ -46,6 +46,7 @@ d_rename = {
     'isInSor':'#InstantSorcery',
     'isEnchantment':'#Enchantment',
     'isLand':'#Land',
+    'isNonbasicLand':'#NonbasicLand',
     'cntWhite':'#White',
     'cntBlue':'#Blue',
     'cntBlack':'#Black',
@@ -75,6 +76,7 @@ initial_columns = [
     '#InstantSorcery',
     '#Enchantment',
     '#Land',
+    '#NonbasicLand',
     '#Common',
     '#Uncommon',
     '#RareMythic',
@@ -143,7 +145,7 @@ with st.expander('Filters'):
     fil4, fil5, fil6 = st.columns(3)
     with fil4:
         st.selectbox('Minimum Decks', [1, 100, 500, 1000], index=1, on_change=callback_change_view, key='mingame_colorstats')
-    st.multiselect('Metrics', st.session_state.list_columns_colorstats, default=initial_columns, 
+    st.multiselect('Metrics', st.session_state.list_columns_colorstats, default=[x for x in initial_columns if x in st.session_state.df_view_colorstats], 
                 on_change=callback_change_view, key='metrics_colorstats')
 
 with st.expander('Metrics Definitions'):
