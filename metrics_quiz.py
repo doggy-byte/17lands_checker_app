@@ -67,6 +67,10 @@ if 'nodata_flg' not in st.session_state:
 
 
 def callback_next():
+    if st.session_state.color_mquiz not in st.secrets[st.session_state.set_mquiz][st.session_state.format_mquiz]:
+        st.session_state.nodata_flg = True
+        return
+
     df = open_or_download_db(st.secrets[st.session_state.set_mquiz][st.session_state.format_mquiz][st.session_state.color_mquiz])
     if df is None or len(df[df[st.session_state.metrics].notnull().all(axis=1)]) < 2:
         st.session_state.nodata_flg = True
