@@ -20,6 +20,9 @@ def open_or_download_image(cardname: str):
         
     d = json.loads(requests.get('https://api.scryfall.com/cards/named?fuzzy={}'.format(qname)).text)
 
+    if not isinstance(d, dict):
+        return None
+
     if 'image_uris' not in d:
         return None
 
