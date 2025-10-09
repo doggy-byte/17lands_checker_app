@@ -20,6 +20,9 @@ def open_or_download_image(cardname: str):
         
     d = json.loads(requests.get('https://api.scryfall.com/cards/named?fuzzy={}'.format(qname)).text)
 
+    if 'image_uris' not in d:
+        return None
+
     image_uri = d['image_uris']['border_crop']
     im = requests.get(image_uri)
     with open(file_path, 'wb') as f:

@@ -51,7 +51,7 @@ if 'set_mquiz' not in st.session_state:
     st.session_state.set_mquiz = st.secrets['sets'][0]
 
 if 'format_mquiz' not in st.session_state:
-    st.session_state.format_mquiz = 'PremierDraft'
+    st.session_state.format_mquiz = 'PickTwoDraft'
 
 if 'color_mquiz'not in st.session_state:
     st.session_state.color_mquiz = 'All'
@@ -67,6 +67,10 @@ if 'nodata_flg' not in st.session_state:
 
 
 def callback_next():
+    if st.session_state.format_mquiz not in st.secrets[st.session_state.set_mquiz]:
+        st.session_state.nodata_flg = True
+        return
+
     if st.session_state.color_mquiz not in st.secrets[st.session_state.set_mquiz][st.session_state.format_mquiz]:
         st.session_state.nodata_flg = True
         return
@@ -130,7 +134,7 @@ fil1, fil2, fil3, fil4 = st.columns(4)
 with fil1:
     st.session_state.set_mquiz = st.selectbox('Set', st.secrets['sets'], index=0)
 with fil2:
-    st.session_state.format_mquiz = st.selectbox('Format', ['PremierDraft'], index=0)
+    st.session_state.format_mquiz = st.selectbox('Format', ['PickTwoDraft', 'PremierDraft'], index=0)
 with fil3:
     st.session_state.color_mquiz = st.selectbox('Deck Color', 
     ['All', 'WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG', 'WUB', 'WUR', 'WUG', 'WBR', 'WBG', 'WRG', 'UBR', 'UBG', 'BRG', 'URG'], index=0)
@@ -146,12 +150,18 @@ if not st.session_state.nodata_flg:
     with col1:
         st.button('Answer', on_click=callback_answer, use_container_width=True)
         st.markdown('' + st.session_state.answerA)
-        st.image(st.session_state.imA)
+        if st.session_state.imA is not None:
+            st.image(st.session_state.imA)
+        else:
+            st.markdown('' + st.session_state.nameA)
 
     with col2:
         st.button('Next', on_click=callback_next, use_container_width=True)
         st.markdown('' + st.session_state.answerB)
-        st.image(st.session_state.imB)
+        if st.session_state.imB is not None:
+            st.image(st.session_state.imB)
+        else:
+            st.markdown('' + st.session_state.nameB)
 else:
     st.button('Next', on_click=callback_next, use_container_width=True)
     st.markdown('No data available.')
