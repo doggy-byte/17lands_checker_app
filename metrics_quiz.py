@@ -51,7 +51,7 @@ if 'set_mquiz' not in st.session_state:
     st.session_state.set_mquiz = st.secrets['sets'][0]
 
 if 'format_mquiz' not in st.session_state:
-    st.session_state.format_mquiz = 'PickTwoDraft'
+    st.session_state.format_mquiz = 'PremierDraft'
 
 if 'color_mquiz'not in st.session_state:
     st.session_state.color_mquiz = 'All'
@@ -134,7 +134,7 @@ fil1, fil2, fil3, fil4 = st.columns(4)
 with fil1:
     st.session_state.set_mquiz = st.selectbox('Set', st.secrets['sets'], index=0)
 with fil2:
-    st.session_state.format_mquiz = st.selectbox('Format', ['PickTwoDraft', 'PremierDraft'], index=0)
+    st.session_state.format_mquiz = st.selectbox('Format', ['PremierDraft', 'PickTwoDraft'], index=0)
 with fil3:
     st.session_state.color_mquiz = st.selectbox('Deck Color', 
     ['All', 'WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG', 'WUB', 'WUR', 'WUG', 'WBR', 'WBG', 'WRG', 'UBR', 'UBG', 'BRG', 'URG'], index=0)
