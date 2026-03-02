@@ -2,4 +2,4 @@ streamlit
 gcsfs
 st-files-connection
 matplotlib
-streamlit-aggrid
+streamlit-aggrid==1.1.0
