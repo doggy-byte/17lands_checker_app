@@ -11,8 +11,9 @@ import pandas as pd
 def open_or_download_image(cardname: str):
     os.makedirs('card_images', exist_ok=True)
 
-    qname = cardname.replace('/', '_').replace(' ', '+')
-    
+    #fname = cardname.replace('/', '_').replace(' ', '+').replace('&', '+').replace(',', '')
+    qname = cardname.split(' // ')[0].replace('/', '').replace(' ', '+').replace('&', '+').replace(',', '')
+
     file_path = 'card_images/' + qname + '.png'
     
     if osp.exists(file_path):
@@ -20,10 +21,10 @@ def open_or_download_image(cardname: str):
         
     d = json.loads(requests.get('https://api.scryfall.com/cards/named?fuzzy={}'.format(qname)).text)
 
-    if not isinstance(d, dict):
-        return None
+    if d['layout'] == 'transform':
+        d = d['card_faces'][0]
 
-    if 'image_uris' not in d:
+    if 'image_uris' not in d.keys():
         return None
 
     image_uri = d['image_uris']['border_crop']
