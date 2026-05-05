@@ -10,7 +10,7 @@ pd.options.display.float_format = '{:.1f}'.format
 st.markdown("""
         <style>
                .block-container {
-                    padding-top: 1rem;
+                    padding-top: 2rem;
                     padding-bottom: 1rem;
                     padding-left: 1rem;
                     padding-right: 1rem;
@@ -152,7 +152,7 @@ if 'df_cardstats' not in st.session_state:
 if 'df_view_cardstats' not in st.session_state:
     callback_change_view()
 
-st.title("カート別デッキ特徴統計")
+st.title("カード別デッキ特徴統計")
 
 st.markdown("[17Lands public dataset](https://www.17lands.com/public_datasets)を元に集計しています。")
 

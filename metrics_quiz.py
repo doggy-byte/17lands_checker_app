@@ -16,7 +16,7 @@ from common_functions import open_or_download_image, open_or_download_db
 st.markdown("""
         <style>
                .block-container {
-                    padding-top: 1rem;
+                    padding-top: 2rem;
                     padding-bottom: 1rem;
                     padding-left: 20%;
                     padding-right: 20%;
