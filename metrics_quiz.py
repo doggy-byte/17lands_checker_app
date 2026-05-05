@@ -128,21 +128,21 @@ def callback_answer():
 if not 'nameA' in st.session_state.keys():
     callback_next()
 
-st.title("Which is stronger?")
+st.title("指標クイズ")
 
-st.markdown("Metrics data was retrieved from [17Lands](https://www.17lands.com/) after 12 days of embargo period.")
+st.markdown("指標データは12日の規定期間経過後、[17Lands](https://www.17lands.com/)より取得しています。")
 
 fil1, fil2, fil3, fil4 = st.columns(4)
 with fil1:
-    st.session_state.set_mquiz = st.selectbox('Set', st.secrets['sets'], index=0)
+    st.session_state.set_mquiz = st.selectbox('セット', st.secrets['sets'], index=0)
 with fil2:
-    st.session_state.format_mquiz = st.selectbox('Format', ['PremierDraft', 'PickTwoDraft'], index=0)
+    st.session_state.format_mquiz = st.selectbox('フォーマット', ['PremierDraft', 'PickTwoDraft'], index=0)
 with fil3:
-    st.session_state.color_mquiz = st.selectbox('Deck Color', 
+    st.session_state.color_mquiz = st.selectbox('デッキカラー', 
     ['All', 'WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG', 'WUB', 'WUR', 'WUG', 'WBR', 'WBG', 'WRG', 'UBR', 'UBG', 'BRG', 'URG'], index=0)
 with fil4:
     #st.session_state.metrics = st.selectbox('Metrics', list_metrics, index=12)
-    st.session_state.metrics = st.multiselect('Metrics', list_metrics, default='GIH WR')
+    st.session_state.metrics = st.multiselect('指標', list_metrics, default='GIH WR')
 
 #st.session_state.filename_db = st.selectbox('select file', filenames_db)
 

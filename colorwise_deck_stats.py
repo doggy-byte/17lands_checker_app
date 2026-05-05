@@ -130,25 +130,25 @@ if 'df_colorstats' not in st.session_state:
 if 'df_view_colorstats' not in st.session_state:
     callback_change_view()
 
-st.title("Color-wise Deck Stats")
+st.title("デッキカラー別特徴統計")
 
-st.markdown("Data was aggregated from [17Lands public dataset](https://www.17lands.com/public_datasets).")
+st.markdown("[17Lands public dataset](https://www.17lands.com/public_datasets)を元に集計しています。")
 
 fil1, fil2, fil3 = st.columns(3)
-with st.expander('Filters'):
+with st.expander('絞り込み'):
     with fil1:
-        st.selectbox('Set', st.secrets['sets_colorstats'], index=0, on_change=callback_all, key='set_colorstats')
+        st.selectbox('セット', st.secrets['sets_colorstats'], index=0, on_change=callback_all, key='set_colorstats')
     with fil2:
-        st.selectbox('Format', ['PremierDraft'], index=0, on_change=callback_all, key='format_colorstats')
+        st.selectbox('フォーマット', ['PremierDraft'], index=0, on_change=callback_all, key='format_colorstats')
     with fil3:
-        st.selectbox('Threshold', ['Platinum+ Rank & 3+ Wins'], index=0, on_change=callback_all, key='wins_colorstats')
+        st.selectbox('勝率しきい値', ['Platinum+ Rank & 3+ Wins'], index=0, on_change=callback_all, key='wins_colorstats')
     fil4, fil5, fil6 = st.columns(3)
     with fil4:
-        st.selectbox('Minimum Decks', [1, 100, 500, 1000], index=1, on_change=callback_change_view, key='mingame_colorstats')
-    st.multiselect('Metrics', st.session_state.list_columns_colorstats, default=[x for x in initial_columns if x in st.session_state.df_view_colorstats], 
+        st.selectbox('最小デッキ数', [1, 100, 500, 1000], index=1, on_change=callback_change_view, key='mingame_colorstats')
+    st.multiselect('指標', st.session_state.list_columns_colorstats, default=[x for x in initial_columns if x in st.session_state.df_view_colorstats], 
                 on_change=callback_change_view, key='metrics_colorstats')
 
-with st.expander('Metrics Definitions'):
+with st.expander('指標の定義'):
     st.dataframe(df_metdef)
 
 gb = GridOptionsBuilder.from_dataframe(st.session_state.df_view_colorstats)

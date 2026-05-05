@@ -152,34 +152,34 @@ if 'df_cardstats' not in st.session_state:
 if 'df_view_cardstats' not in st.session_state:
     callback_change_view()
 
-st.title("Card-wise Deck Stats")
+st.title("カート別デッキ特徴統計")
 
-st.markdown("Data was aggregated from [17Lands public dataset](https://www.17lands.com/public_datasets).")
+st.markdown("[17Lands public dataset](https://www.17lands.com/public_datasets)を元に集計しています。")
 
 fil1, fil2, fil3 = st.columns(3)
 with fil1:
-    st.selectbox('Set', st.secrets['sets_cardstats'], index=0, on_change=callback_all, key='set_cardstats')
+    st.selectbox('セット', st.secrets['sets_cardstats'], index=0, on_change=callback_all, key='set_cardstats')
 with fil2:
-    st.selectbox('Format', ['PremierDraft'], index=0, on_change=callback_all, key='format_cardstats')
+    st.selectbox('フォーマット', ['PremierDraft'], index=0, on_change=callback_all, key='format_cardstats')
 with fil3:
-    st.selectbox('Threshold', ['Platinum+ Rank & 3+ Wins'], index=0, on_change=callback_all, key='wins_cardstats')
+    st.selectbox('勝率しきい値', ['Platinum+ Rank & 3+ Wins'], index=0, on_change=callback_all, key='wins_cardstats')
 
-with st.expander('Filters'):
+with st.expander('絞り込み'):
     fil4, fil5, fil6 = st.columns(3)
     with fil4:
-        st.selectbox('Minimum Decks', [1, 100, 500, 1000], index=1, on_change=callback_change_view, key='mingame_cardstats')
+        st.selectbox('最小デッキ数', [1, 100, 500, 1000], index=1, on_change=callback_change_view, key='mingame_cardstats')
     with fil5:
-        st.multiselect('Rarity', ['common', 'uncommon', 'rare', 'mythic'], ['common', 'uncommon', 'rare', 'mythic'], 
+        st.multiselect('レアリティ', ['common', 'uncommon', 'rare', 'mythic'], ['common', 'uncommon', 'rare', 'mythic'], 
                     on_change=callback_change_view, key='rarity_cardstats')
     with fil6:
-        st.multiselect('Color', ['W', 'U', 'B', 'R', 'G', 'Multicolor', 'Colorless'], ['W', 'U', 'B', 'R', 'G', 'Multicolor', 'Colorless'], 
+        st.multiselect('色', ['W', 'U', 'B', 'R', 'G', 'Multicolor', 'Colorless'], ['W', 'U', 'B', 'R', 'G', 'Multicolor', 'Colorless'], 
                     on_change=callback_change_view, key='color_cardstats')
 
-    st.text_input('Name', on_change=callback_change_view, key='cardname_cardstats')
-    st.multiselect('Metrics', st.session_state.list_columns_cardstats, default=[x for x in initial_columns if x in st.session_state.df_view_cardstats], 
+    st.text_input('名前', on_change=callback_change_view, key='cardname_cardstats')
+    st.multiselect('指標', st.session_state.list_columns_cardstats, default=[x for x in initial_columns if x in st.session_state.df_view_cardstats], 
                 on_change=callback_change_view, key='metrics_cardstats')
 
-with st.expander('Metrics Definitions'):
+with st.expander('指標の定義'):
     st.markdown('- カード枚数に関する統計はそのカード自体を含みます。')
     st.markdown('- ゲーム展開に関する統計はそのカードを引かなかった・プレイしなかったゲームも含みます。')
     st.dataframe(df_metdef)
