@@ -9,6 +9,44 @@ from st_files_connection import FilesConnection
 import pandas as pd
 from io import BytesIO
 
+
+def download_gcs_folder(bucket_name, gcs_folder_path, local_dir):
+    """
+    GCS上の特定のフォルダ（prefix）配下の全ファイルをダウンロードする
+    """
+    # 1. GCS Connectionの初期化
+    conn = st.connection('gcs', type=FilesConnection)
+    
+    # 2. ローカルの保存先ディレクトリを作成
+    if not os.path.exists(local_dir):
+        os.makedirs(local_dir)
+    
+    # 3. 指定したフォルダ内のファイル一覧を取得
+    # 注意: list_objects(path) は指定パスで始まるファイルをリストします
+    full_gcs_path = f"{bucket_name}/{gcs_folder_path}"
+    files = conn.fs.ls(full_gcs_path)
+    
+    downloaded_files = []
+    
+    for file_path in files:
+        # ディレクトリ自体を除外（GCS上の空のディレクトリなど）
+        if conn.fs.isdir(file_path):
+            continue
+            
+        file_name = os.path.basename(file_path)
+        local_file_path = os.path.join(local_dir, file_name)
+        
+        # 4. ファイルを読み込んでローカルに書き出し
+        with conn.open(file_path, "rb") as f:
+            content = f.read()
+            with open(local_file_path, "wb") as local_f:
+                local_f.write(content)
+        
+        downloaded_files.append(local_file_path)
+    
+    return downloaded_files
+
+
 def get_card_data_ja(cardname):
     base_url = "https://api.scryfall.com/cards/named?fuzzy={}"
     
