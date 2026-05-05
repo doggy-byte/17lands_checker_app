@@ -65,6 +65,9 @@ if 'filter' not in st.session_state:
 if 'nodata_flg' not in st.session_state:
     st.session_state.nodata_flg = False
 
+if 'card_lang_mquiz' not in st.session_state:
+    st.session_state.card_lang_mquiz = 'JA'
+
 
 def callback_next():
     if st.session_state.format_mquiz not in st.secrets[st.session_state.set_mquiz]:
@@ -102,8 +105,8 @@ def callback_next():
     st.session_state.metricsB = list(df_sample[list(st.session_state.metrics)].iloc[1])
     #st.session_state.imA = Image.open('card_images/{}/{}.png'.format(set_name, st.session_state.qnameA))
     #st.session_state.imB = Image.open("card_images/{}/{}.png".format(set_name, st.session_state.qnameB))
-    st.session_state.imA = open_or_download_image(st.session_state.nameA)
-    st.session_state.imB = open_or_download_image(st.session_state.nameB)
+    st.session_state.imA = open_or_download_image(st.session_state.nameA, lang=st.session_state.card_lang_mquiz.lower())
+    st.session_state.imB = open_or_download_image(st.session_state.nameB, lang=st.session_state.card_lang_mquiz.lower())
     st.session_state.answerA = ''
     for i, met in enumerate(st.session_state.metrics):
         st.session_state.answerA += '#### {}=___\n'.format(met)
@@ -132,7 +135,7 @@ st.title("指標クイズ")
 
 st.markdown("指標データは12日の規定期間経過後、[17Lands](https://www.17lands.com/)より取得しています。")
 
-fil1, fil2, fil3, fil4 = st.columns(4)
+fil1, fil2, fil3, fil4, fil5 = st.columns(5)
 with fil1:
     st.session_state.set_mquiz = st.selectbox('セット', st.secrets['sets'], index=0)
 with fil2:
@@ -143,6 +146,8 @@ with fil3:
 with fil4:
     #st.session_state.metrics = st.selectbox('Metrics', list_metrics, index=12)
     st.session_state.metrics = st.multiselect('指標', list_metrics, default='GIH WR')
+with fil5:
+    st.session_state.card_lang_mquiz = st.radio('言語', ('JA', 'EN')) 
 
 #st.session_state.filename_db = st.selectbox('select file', filenames_db)
 

@@ -1,27 +1,77 @@
 import os.path as osp
 import os
 import json
+import time
 import requests
 from PIL import Image
 import streamlit as st
 from st_files_connection import FilesConnection
 import pandas as pd
+from io import BytesIO
+
+def get_card_data_ja(cardname):
+    base_url = "https://api.scryfall.com/cards/named?fuzzy={}"
+    
+    response = requests.get(base_url.format(cardname))
+    
+    if not response.ok:
+        print('EN response not OK')
+        return None
+    
+    en_data = response.json()
+    oracle_id = en_data.get('oracle_id')
+    
+    # API負荷軽減のための待機 (Scryfallの推奨ルール)
+    time.sleep(0.1)
+    
+    search_url = "https://api.scryfall.com/cards/search"
+    search_params = {
+        'q': f'oracleid:{oracle_id} lang:ja',
+        'order': 'released',
+        'unique': 'cards' 
+    }
+    
+    ja_res = requests.get(search_url, params=search_params)
+    
+    if ja_res.ok:
+        ja_search_result = ja_res.json()
+        return ja_search_result['data'][0]
+    else:
+        print('JA response not OK')
+        return None
 
 
-def open_or_download_image(cardname: str):
+def open_or_download_image(cardname: str, lang='ja'):
     os.makedirs('card_images', exist_ok=True)
+    os.makedirs('card_images_ja', exist_ok=True)
+
+    write_flg = True
 
     #fname = cardname.replace('/', '_').replace(' ', '+').replace('&', '+').replace(',', '')
     qname = cardname.split(' // ')[0].replace('/', '').replace(' ', '+').replace('&', '+').replace(',', '')
 
-    file_path = 'card_images/' + qname + '.png'
+    if lang == 'en':
+        file_path = 'card_images/' + qname + '.png'
+    if lang == 'ja':
+        file_path = 'card_images_ja/' + qname + '.png'
     
     if osp.exists(file_path):
         return Image.open(file_path)
-        
-    d = json.loads(requests.get('https://api.scryfall.com/cards/named?fuzzy={}'.format(qname)).text)
+    
+    if lang == 'en':
+        d = json.loads(requests.get('https://api.scryfall.com/cards/named?fuzzy={}'.format(qname)).text)
+    if lang == 'ja':
+        d = get_card_data_ja(qname)
+        if d is None:
+            d = json.loads(requests.get('https://api.scryfall.com/cards/named?fuzzy={}'.format(qname)).text)
+            write_flg = False
 
-    if d['layout'] == 'transform':
+    time.sleep(0.1)
+
+    if d is None:
+        return None
+
+    if 'layout' in d.keys() and d['layout'] == 'transform':
         d = d['card_faces'][0]
 
     if 'image_uris' not in d.keys():
@@ -29,10 +79,15 @@ def open_or_download_image(cardname: str):
 
     image_uri = d['image_uris']['border_crop']
     im = requests.get(image_uri)
-    with open(file_path, 'wb') as f:
-        f.write(im.content)
+
+    if not im.ok:
+        return None
+
+    if write_flg:
+        with open(file_path, 'wb') as f:
+            f.write(im.content)
         
-    return Image.open(file_path)
+    return Image.open(BytesIO(im.content))
 
 
 def open_or_download_db(filename, force_download=False):
