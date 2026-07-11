@@ -66,7 +66,7 @@ if 'nodata_flg' not in st.session_state:
     st.session_state.nodata_flg = False
 
 if 'card_lang_mquiz' not in st.session_state:
-    st.session_state.card_lang_mquiz = 'JA'
+    st.session_state.card_lang_mquiz = 'EN'
 
 
 def callback_next():
