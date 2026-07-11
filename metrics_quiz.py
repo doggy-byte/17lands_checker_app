@@ -147,7 +147,7 @@ with fil4:
     #st.session_state.metrics = st.selectbox('Metrics', list_metrics, index=12)
     st.session_state.metrics = st.multiselect('指標', list_metrics, default='GIH WR')
 with fil5:
-    st.session_state.card_lang_mquiz = st.radio('言語', ('JA', 'EN')) 
+    st.session_state.card_lang_mquiz = st.radio('言語', ('EN', 'JA')) 
 
 #st.session_state.filename_db = st.selectbox('select file', filenames_db)
 
