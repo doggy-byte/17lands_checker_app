@@ -1,5 +1,5 @@
 streamlit==1.39.0
-gcsfs
-st-files-connection
-matplotlib
+gcsfs==2024.9.0.post1
+st-files-connection==0.1.0
+matplotlib==3.9.2
 streamlit-aggrid==1.1.0
