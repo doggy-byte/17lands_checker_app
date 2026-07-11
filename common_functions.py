@@ -50,10 +50,15 @@ def download_gcs_folder(bucket_name, gcs_folder_path, local_dir):
 def get_card_data_ja(cardname):
     base_url = "https://api.scryfall.com/cards/named?fuzzy={}"
     
-    response = requests.get(base_url.format(cardname))
+    headers = {
+        "User-Agent": "3rdParty17LandsDataApp (indkgames@gmail.com)"
+    }
+
+    response = requests.get(base_url.format(cardname), headers=headers)
     
     if not response.ok:
         print('EN response not OK')
+        print(response.text)
         return None
     
     en_data = response.json()
@@ -69,7 +74,7 @@ def get_card_data_ja(cardname):
         'unique': 'cards' 
     }
     
-    ja_res = requests.get(search_url, params=search_params)
+    ja_res = requests.get(search_url, params=search_params, headers=headers)
     
     if ja_res.ok:
         ja_search_result = ja_res.json()
@@ -85,6 +90,10 @@ def open_or_download_image(cardname: str, lang='ja'):
 
     write_flg = True
 
+    headers = {
+        "User-Agent": "3rdParty17LandsDataApp (indkgames@gmail.com)"
+    }
+
     #fname = cardname.replace('/', '_').replace(' ', '+').replace('&', '+').replace(',', '')
     qname = cardname.split(' // ')[0].replace('/', '').replace(' ', '+').replace('&', '+').replace(',', '')
 
@@ -97,28 +106,31 @@ def open_or_download_image(cardname: str, lang='ja'):
         return Image.open(file_path)
     
     if lang == 'en':
-        d = json.loads(requests.get('https://api.scryfall.com/cards/named?fuzzy={}'.format(qname)).text)
+        d = json.loads(requests.get('https://api.scryfall.com/cards/named?fuzzy={}'.format(qname), headers=headers).text)
     if lang == 'ja':
         d = get_card_data_ja(qname)
         if d is None:
-            d = json.loads(requests.get('https://api.scryfall.com/cards/named?fuzzy={}'.format(qname)).text)
+            d = json.loads(requests.get('https://api.scryfall.com/cards/named?fuzzy={}'.format(qname), headers=headers).text)
             write_flg = False
 
     time.sleep(0.1)
 
     if d is None:
+        print('NULL response.')
         return None
 
     if 'layout' in d.keys() and d['layout'] == 'transform':
         d = d['card_faces'][0]
 
     if 'image_uris' not in d.keys():
+        print('No image_uris.')
         return None
 
     image_uri = d['image_uris']['border_crop']
-    im = requests.get(image_uri)
+    im = requests.get(image_uri, headers=headers)
 
     if not im.ok:
+        print('image_url invalid.')
         return None
 
     if write_flg:
