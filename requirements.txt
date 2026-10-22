@@ -1,5 +1,7 @@
-streamlit==1.59.1
+streamlit==1.66.0
 gcsfs==2026.10.1
 st-files-connection==0.1.0
 matplotlib
 streamlit-aggrid==1.2.1.post2
+uvicorn
+starlette
