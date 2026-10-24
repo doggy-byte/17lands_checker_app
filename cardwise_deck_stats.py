@@ -189,6 +189,10 @@ gb.configure_columns([x for x in st.session_state.df_view_cardstats.columns if s
     type=["numericColumn", "customNumericFormat"], precision=1)
 gb.configure_column("CardName", pinned="left")
 gb.configure_column("CardNameJP", pinned="left")
+gb.configure_default_column(
+    minWidth=100,
+    resizable=True
+)
 
 gridOptions = gb.build()
 

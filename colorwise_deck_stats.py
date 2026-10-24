@@ -155,6 +155,10 @@ gb = GridOptionsBuilder.from_dataframe(st.session_state.df_view_colorstats)
 gb.configure_columns([x for x in st.session_state.df_view_colorstats.columns if st.session_state.df_view_colorstats[x].dtype==np.float64], 
     type=["numericColumn", "customNumericFormat"], precision=1)
 gb.configure_column("MainColor", pinned="left")
+gb.configure_default_column(
+    minWidth=100,
+    resizable=True
+)
 
 gridOptions = gb.build()
 
