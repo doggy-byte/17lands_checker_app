@@ -5,3 +5,4 @@ matplotlib
 streamlit-aggrid==1.2.1.post2
 uvicorn
 starlette
+certifi>=2026.10.19
